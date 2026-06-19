@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema(
   {
     content: {
       type: String,
-      required: true,
+      required: [true, "El contenido del comentario es necesario"],
     },
 
     visible: {

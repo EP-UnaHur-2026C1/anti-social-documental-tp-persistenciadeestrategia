@@ -10,7 +10,7 @@ const imageSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema(
   {
-    descripcion: {
+    description: {
       type: String,
       required: [true, "La descripcion del post es obligatoria"],
     },
