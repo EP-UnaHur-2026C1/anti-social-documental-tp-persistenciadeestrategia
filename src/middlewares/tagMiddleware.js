@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Tag } = require("../models");
+const Tag = require("../models/Tag");
 
 const validarTag = (req, res, next) => {
   const { name } = req.body;

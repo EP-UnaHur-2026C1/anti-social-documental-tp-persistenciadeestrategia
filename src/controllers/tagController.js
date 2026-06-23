@@ -27,7 +27,7 @@ const crearTag = async (req, res) => {
     const tagNuevo = await Tag.create(req.body);
 
     res.status(201).json({
-      message: "Etiqueta creada correctamente.",
+      message: "Tag creado correctamente.",
       tag: tagNuevo,
     });
   } catch (error) {
