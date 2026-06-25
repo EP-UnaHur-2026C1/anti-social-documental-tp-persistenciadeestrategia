@@ -67,7 +67,7 @@ paths:
         required: true
         description: ID numérico del usuario que se desea consultar, editar o eliminar.
         schema:
-          type: integer
+          type: string
 
     get:
       tags:
@@ -131,13 +131,13 @@ paths:
         required: true
         description: ID del usuario que realiza la acción.
         schema:
-          type: integer
+          type: string
       - name: targetId
         in: path
         required: true
         description: ID del usuario objetivo.
         schema:
-          type: integer
+          type: string
 
     post:
       tags:
@@ -172,7 +172,7 @@ paths:
         required: true
         description: ID del usuario para consultar sus seguidores.
         schema:
-          type: integer
+          type: string
 
     get:
       tags:
@@ -194,7 +194,7 @@ paths:
         required: true
         description: ID del usuario para consultar a quiénes sigue.
         schema:
-          type: integer
+          type: string
 
     get:
       tags:
@@ -226,7 +226,7 @@ paths:
                 description:
                   type: string
                 userId:
-                  type: integer
+                  type: string
               example:
                 description: "Hola Mundo"
                 userId: 1
@@ -256,7 +256,7 @@ paths:
         required: true
         description: ID numérico del post que se desea consultar, editar o eliminar.
         schema:
-          type: integer
+          type: string
 
     get:
       tags:
@@ -318,7 +318,7 @@ paths:
         required: true
         description: ID del Post al que pertenecen las imágenes.
         schema:
-          type: integer
+          type: string
 
     post:
       tags:
@@ -366,13 +366,13 @@ paths:
         required: true
         description: ID del Post al que pertenece la imagen.
         schema:
-          type: integer
+          type: string
       - name: imageId
         in: path
         required: true
         description: ID numérico único de la imagen que se desea eliminar.
         schema:
-          type: integer
+          type: string
 
     delete:
       tags:
@@ -395,7 +395,7 @@ paths:
         required: true
         description: ID del Post al que se le quieren gestionar las etiquetas.
         schema:
-          type: integer
+          type: string
 
     post:
       tags:
@@ -412,7 +412,7 @@ paths:
                 tagsIds:
                   type: array
                   items:
-                    type: integer
+                    type: string
               example:
                 tagsIds: [1, 2]
       responses:
@@ -430,13 +430,13 @@ paths:
         required: true
         description: ID del Post.
         schema:
-          type: integer
+          type: string
       - name: tagId
         in: path
         required: true
         description: ID de la etiqueta (Tag) que se quiere asociar o desasociar.
         schema:
-          type: integer
+          type: string
 
     post:
       tags:
@@ -481,9 +481,9 @@ paths:
                 content:
                   type: string
                 userId:
-                  type: integer
+                  type: string
                 postId:
-                  type: integer
+                  type: string
                 createdAt:
                   type: string
                   format: date-time
@@ -517,7 +517,7 @@ paths:
         required: true
         description: ID numérico del comentario que se desea editar o eliminar.
         schema:
-          type: integer
+          type: string
 
     put:
       tags:
@@ -600,7 +600,7 @@ paths:
         required: true
         description: ID numérico de la etiqueta (Tag) que se desea consultar, editar o eliminar.
         schema:
-          type: integer
+          type: string
 
     get:
       tags:
