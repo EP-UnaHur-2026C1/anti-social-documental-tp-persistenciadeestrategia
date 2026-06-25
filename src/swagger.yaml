@@ -6,7 +6,7 @@ info:
 
 servers:
   - url: http://localhost:3000
-    description: Servidor Local de Desarrollo (Docker)
+    description: Servidor Local de Desarrollo
 
 tags:
   - name: Users
@@ -566,19 +566,6 @@ paths:
       responses:
         "200":
           description: Lista de Tags obtenida con éxito.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    _id:
-                      type: string
-                      example: 6a3acdf1417ae63ebc709a5f
-                    name:
-                      type: string
-                      example: javascript
         "500":
           description: Error interno del servidor al obtener los Tags.
 
@@ -600,17 +587,6 @@ paths:
       responses:
         "200":
           description: Tag encontrado.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  _id:
-                    type: string
-                    example: 6a3acdf1417ae63ebc709a5f
-                  name:
-                    type: string
-                    example: javascript
         "400":
           description: El ID del Post debe ser un formato válido de MongoDB.
         "404":
@@ -642,23 +618,6 @@ paths:
       responses:
         "200":
           description: Tag actualizado con éxito.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Tag actualizado correctamente.
-                  tag:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                        example: 6a3acdf1417ae63ebc709a5f
-                      name:
-                        type: string
-                        example: javascript-avanzado
         "400":
           description: Error de validación. El ID tiene formato inválido, el nombre ya existe o no cumple con el largo de 2 a 30 caracteres.
         "404":

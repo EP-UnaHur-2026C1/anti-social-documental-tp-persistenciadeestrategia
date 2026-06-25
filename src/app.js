@@ -6,10 +6,11 @@ const swaggerUi = require("swagger-ui-express");
 
 const connectDB = require("./config/db");
 
-const routerTag = require("./routes/tagRoutes");
-const routerPost = require("./routes/postRoutes");
+const routerTags = require("./routes/tagRoutes");
+const routerPosts = require("./routes/postRoutes");
 const routerUsers = require("./routes/userRoutes");
 const routerFollowers = require("./routes/followerRoutes");
+const routerComments = require("./routes/commentRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,10 +23,11 @@ app.use(express.json());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/api/tags", routerTag);
-app.use("/api/posts", routerPost);
+app.use("/api/tags", routerTags);
+app.use("/api/posts", routerPosts);
 app.use("/api/users", routerUsers);
 app.use("/api/followers", routerFollowers);
+app.use("/api/comments", routerComments);
 
 const startServer = async () => {
   try {
