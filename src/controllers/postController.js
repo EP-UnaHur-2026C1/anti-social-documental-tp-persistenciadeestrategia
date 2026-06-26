@@ -49,8 +49,7 @@ const dissociateTag = async (req, res) => {
 
     const { tagId } = req.params;
 
-    post.tags = post.tags.filter((tag) => tag.toString() !== tagId);
-
+    post.tags.pull(tagId);
     await post.save();
 
     res.status(200).json({
@@ -63,7 +62,6 @@ const dissociateTag = async (req, res) => {
     });
   }
 };
-
 
 //Contorladores para post
 const createPost = async (req, res) => {
@@ -86,8 +84,8 @@ const createPost = async (req, res) => {
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("user")
-      .populate("tags");
+      .populate("user", "nickname email") // Protege contraseña
+      .populate("tags", "name");
 
     res.json(posts);
   } catch (error) {
@@ -95,16 +93,12 @@ const getPosts = async (req, res) => {
   }
 };
 
-
 const getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id)
-      .populate("user")
-      .populate("tags");
+    const post = req.post;
 
-    if (!post) {
-      return res.status(404).json({ message: "Post no encontrado" });
-    }
+    await post.populate("user", "nickname email");
+    await post.populate("tags", "name");
 
     res.json(post);
   } catch (error) {
@@ -114,11 +108,9 @@ const getPostById = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
-    const post = await Post.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    )
+    const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
       .populate("user")
       .populate("tags");
 

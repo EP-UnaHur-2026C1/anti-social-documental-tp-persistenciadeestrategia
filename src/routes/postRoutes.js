@@ -14,7 +14,7 @@ const {
 
 const { validatePostExists, validatePostBody } = require("../middlewares/postMiddleware");
 
-const { validarTagId } = require("../middlewares/tagMiddleware");
+const { validateTagId } = require("../middlewares/tagMiddleware");
 
 
 //rutas para posts
@@ -31,14 +31,14 @@ router.post("/:id/tags", validatePostExists, assignTags);
 router.post(
   "/:id/tags/:tagId",
   validatePostExists,
-  validarTagId, 
+  validateTagId, 
   associateTag,
 );
 
 router.delete(
   "/:id/tags/:tagId",
   validatePostExists,
-  validarTagId, 
+  validateTagId, 
   dissociateTag,
 );
 
