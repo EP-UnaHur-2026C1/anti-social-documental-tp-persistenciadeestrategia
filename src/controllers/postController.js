@@ -138,6 +138,64 @@ const deletePost = async (req, res) => {
   }
 };
 
+//image
+//ADD IMAGE
+const addImage = async (req, res) => {
+  try {
+    const { url } = req.body;
+
+    if (!url || url.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "La URL de la imagen es obligatoria." });
+    }
+
+    const post = req.post;
+
+    post.images.push({ url });
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Imagen agregada al post con éxito.",
+      data: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al agregar la imagen al post",
+      error: error.message,
+    });
+  }
+};
+
+//REMOVE IMAGE
+const removeImage = async (req, res) => {
+  try {
+    const { imageId } = req.params;
+    const post = req.post;
+
+    const image = post.images.id(imageId);
+    
+    if (!image) {
+      return res.status(404).json({ message: "La imagen no fue encontrada en este post." });
+    }
+
+    image.deleteOne();
+    
+    await post.save();
+
+    res.status(200).json({
+      message: "Imagen eliminada con éxito.",
+      data: post
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Error al eliminar la imagen", 
+      error: error.message 
+    });
+  }
+};
+
 module.exports = {
   assignTags,
   associateTag,
@@ -147,4 +205,6 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  addImage,
+  removeImage
 };
