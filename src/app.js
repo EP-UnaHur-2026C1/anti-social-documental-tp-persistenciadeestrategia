@@ -13,7 +13,7 @@ const routerFollowers = require("./routes/followerRoutes");
 const routerComments = require("./routes/commentRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const swaggerDocument = YAML.load(
   fs.readFileSync(path.join(__dirname, "swagger.yaml"), "utf8"),
