@@ -2,7 +2,7 @@ const Comment = require("../models/Comment");
 
 const getComments = async (req, res) => {
   try {
-    const meses = parseInt(process.env.MESES_VISIBLES) || 6;
+    const meses = parseInt(process.env.LIMIT_MONTHS) || 6;
     const fechaLimite = new Date();
     fechaLimite.setMonth(fechaLimite.getMonth() - meses);
 
@@ -19,7 +19,7 @@ const getComments = async (req, res) => {
 
 const getCommentsByPost = async (req, res) => {
   try {
-    const meses = parseInt(process.env.MESES_VISIBLES) || 6;
+    const meses = parseInt(process.env.LIMIT_MONTHS) || 6;
     const fechaLimite = new Date();
     fechaLimite.setMonth(fechaLimite.getMonth() - meses);
 

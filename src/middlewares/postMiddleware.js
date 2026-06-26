@@ -21,7 +21,6 @@ const validatePostExists = async (req, res, next) => {
     }
 
     req.post = post;
-
     next();
   } catch (error) {
     res.status(500).json({
@@ -30,8 +29,16 @@ const validatePostExists = async (req, res, next) => {
   }
 };
 
+// validar body al crear post
+// CORRECCIÓN: agrego 'async' aquí para poder usar 'await'
 const validatePostBody = async (req, res, next) => {
-  try {
+  try { 
+    if (!req.body) {
+      return res.status(400).json({
+        message: "Body requerido",
+      });
+    }
+
     const { description, user } = req.body;
 
     if (!description || description.trim() === "") {
@@ -60,7 +67,7 @@ const validatePostBody = async (req, res, next) => {
     }
 
     next();
-  } catch (error) {
+  } catch (error) { 
     res.status(500).json({ error: "Error al validar el body del post" });
   }
 };

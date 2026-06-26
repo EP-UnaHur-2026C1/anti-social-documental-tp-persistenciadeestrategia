@@ -66,12 +66,31 @@ const dissociateTag = async (req, res) => {
 //Contorladores para post
 const createPost = async (req, res) => {
   try {
-    const { description, user, images, tags } = req.body;
+    const { description, user, tags, images: imageUrls } = req.body;
+
+    // 1. imágenes subidas con multer
+    const uploadedImages = req.files
+      ? req.files.map((file) => ({
+          url: `/uploads/posts/${file.filename}`,
+        }))
+      : [];
+
+    // 2. imágenes por URL (body)
+    let bodyImages = [];
+
+    if (imageUrls) {
+      // puede venir string o array
+      const urls = Array.isArray(imageUrls)
+        ? imageUrls
+        : [imageUrls];
+
+      bodyImages = urls.map((url) => ({ url }));
+    }
 
     const post = await Post.create({
       description,
       user,
-      images,
+      images: [...uploadedImages, ...bodyImages],
       tags,
     });
 
@@ -138,60 +157,101 @@ const deletePost = async (req, res) => {
   }
 };
 
-//image
-//ADD IMAGE
 const addImage = async (req, res) => {
   try {
+    const post = req.post;
     const { url } = req.body;
 
-    if (!url || url.trim() === "") {
-      return res
-        .status(400)
-        .json({ message: "La URL de la imagen es obligatoria." });
+    // 1. si viene archivo multer
+    if (req.file) {
+      post.images.push({
+        url: `/uploads/posts/${req.file.filename}`,
+      });
     }
 
-    const post = req.post;
-
-    post.images.push({ url });
+    // 2. si viene URL por body
+    if (url) {
+      post.images.push({ url });
+    }
 
     await post.save();
 
     res.status(200).json({
-      message: "Imagen agregada al post con éxito.",
+      message: "Imagen agregada correctamente",
       data: post,
     });
   } catch (error) {
     res.status(500).json({
-      message: "Error al agregar la imagen al post",
+      message: "Error al agregar imagen",
       error: error.message,
     });
   }
 };
 
-//REMOVE IMAGE
 const removeImage = async (req, res) => {
   try {
-    const { imageId } = req.params;
     const post = req.post;
+    const { imageId } = req.params;
 
     const image = post.images.id(imageId);
-    
+
     if (!image) {
-      return res.status(404).json({ message: "La imagen no fue encontrada en este post." });
+      return res.status(404).json({
+        message: "Imagen no encontrada",
+      });
     }
 
     image.deleteOne();
-    
+
     await post.save();
 
     res.status(200).json({
-      message: "Imagen eliminada con éxito.",
-      data: post
+      message: "Imagen eliminada correctamente",
+      data: post,
     });
   } catch (error) {
-    res.status(500).json({ 
-      message: "Error al eliminar la imagen", 
-      error: error.message 
+    res.status(500).json({
+      message: "Error al eliminar imagen",
+      error: error.message,
+    });
+  }
+};
+
+const updateImage = async (req, res) => {
+  try {
+    const post = req.post;
+    const { imageId } = req.params;
+    const { url } = req.body;
+
+    const image = post.images.id(imageId);
+
+    if (!image) {
+      return res.status(404).json({
+        message: "Imagen no encontrada",
+      });
+    }
+
+    // reemplazo híbrido
+    if (req.file) {
+      image.url = `/uploads/posts/${req.file.filename}`;
+    } else if (url) {
+      image.url = url;
+    } else {
+      return res.status(400).json({
+        message: "Debes enviar una imagen o URL",
+      });
+    }
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Imagen actualizada correctamente",
+      data: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al actualizar imagen",
+      error: error.message,
     });
   }
 };
@@ -206,5 +266,6 @@ module.exports = {
   updatePost,
   deletePost,
   addImage,
-  removeImage
+  removeImage,
+  updateImage
 };
