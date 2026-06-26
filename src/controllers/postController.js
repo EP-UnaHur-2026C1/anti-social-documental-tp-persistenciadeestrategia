@@ -80,9 +80,7 @@ const createPost = async (req, res) => {
 
     if (imageUrls) {
       // puede venir string o array
-      const urls = Array.isArray(imageUrls)
-        ? imageUrls
-        : [imageUrls];
+      const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
 
       bodyImages = urls.map((url) => ({ url }));
     }
@@ -267,5 +265,5 @@ module.exports = {
   deletePost,
   addImage,
   removeImage,
-  updateImage
+  updateImage,
 };
