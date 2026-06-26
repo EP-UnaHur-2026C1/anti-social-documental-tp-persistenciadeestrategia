@@ -318,23 +318,23 @@ paths:
       tags:
         - Posts
       summary: Agregar Imagenes
-      description: Inserta un nuevo subdocumento de imagen dentro del array embebido 'images' del post (Requerimiento Técnico N°1).
+      description: Sube una imagen mediante multer y agrega la referencia al subdocumento de imagen dentro del array embebido 'images' del post.
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
-                url:
+                image:
                   type: string
-              example:
-                url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97"
+                  format: binary
+                  description: Archivo de imagen a subir.
       responses:
         "201":
           description: Imagen agregada con éxito al documento.
         "400":
-          description: La URL de la imagen es obligatoria o formato de ID incorrecto.
+          description: El archivo de imagen es obligatorio o formato de ID incorrecto.
         "404":
           description: Post no encontrado.
         "500":
@@ -400,7 +400,8 @@ paths:
                     example: 66786c3a1a2b3c4d5e6f7a8b
               example:
                 tagsIds:
-                  ["6a3acdf1417ae63ebc709a5f", "66786c3a1a2b3c4d5e6f7a8b"]
+                  - "6a3acdf1417ae63ebc709a5f"
+                  - "66786c3a1a2b3c4d5e6f7a8b"
       responses:
         "200":
           description: Tags asignados al post correctamente.
@@ -433,7 +434,6 @@ paths:
         - Posts
       summary: Asociar Tag
       description: Añade un Tag individual al arreglo del Post utilizando el método .addToSet() de Mongoose para evitar elementos duplicados.
-    responses:
       responses:
         "200":
           description: Tag asociado al post correctamente.
@@ -687,13 +687,13 @@ paths:
         "200":
           description: Tag eliminado correctamente.
           content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  example: Tag eliminado correctamente.
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Tag eliminado correctamente.
         "400":
           description: El ID del Post debe ser un formato válido de MongoDB.
         "404":
