@@ -31,6 +31,13 @@ const validatePostExists = async (req, res, next) => {
 
 // validar body al crear post
 const validatePostBody = (req, res, next) => {
+
+  if (!req.body) {
+    return res.status(400).json({
+      message: "Body requerido",
+    });
+  }
+
   const { description, user } = req.body;
 
   if (!description || description.trim() === "") {

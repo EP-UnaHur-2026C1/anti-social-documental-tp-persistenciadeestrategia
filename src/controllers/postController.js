@@ -68,7 +68,13 @@ const dissociateTag = async (req, res) => {
 //Contorladores para post
 const createPost = async (req, res) => {
   try {
-    const { description, user, images, tags } = req.body;
+    const { description, user, tags } = req.body;
+
+    // Convierte los archivos subidos por Multer
+    // al formato utilizado por el esquema Post
+    const images = req.files.map((file) => ({
+      url: `/uploads/posts/${file.filename}`,
+    }));
 
     const post = await Post.create({
       description,

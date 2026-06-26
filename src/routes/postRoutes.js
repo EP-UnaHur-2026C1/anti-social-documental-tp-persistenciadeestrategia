@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const router = Router();
+const upload = require("../middlewares/uploadMiddleware");
 
 const {
   assignTags,
@@ -18,7 +19,8 @@ const { validarTagId } = require("../middlewares/tagMiddleware");
 
 
 //rutas para posts
-router.post("/",validatePostBody, createPost);
+                //El post de posts recibe las imagenes enviadas en el campo images y las almacena en uploads/posts
+router.post("/",upload.array("images",10),validatePostBody, createPost);
 router.get("/", getPosts);
 router.get("/:id",validatePostExists, getPostById);
 router.put("/:id",validatePostExists, validatePostBody, updatePost);
